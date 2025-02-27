@@ -44,7 +44,6 @@
     <div id="screenshotDiv" style="display: none;" class="ctaDiv">
         <div style="position:relative; background-color:white; padding:10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.25);">
             <img id="screenshotImg" src="" alt="screenshot" style="width:80vw; height:80vh">
-            <button onclick="document.getElementById('screenshotDiv').style.display = 'none';" style="position:absolute; transform:translateY(-100%); right:0; top:0">Close</button>
         </div>
     </div>
     <div id="errorDiv" class="ctaDiv" style="display: none; background:#aaa">
@@ -288,6 +287,10 @@
             document.getElementById("screenshotImg").src = dataUrl;
             document.getElementById("screenshotImg").style.width = "80vw";
             document.getElementById("screenshotImg").style.height = 80 / window.innerWidth * window.innerHeight + "vw";
+        }
+
+        function HideScreenshot() {
+            document.getElementById("screenshotDiv").style.display = "none";
         }
         
     </script>
