@@ -58,7 +58,7 @@
                 z-index: 9999; /* 确保层级最高 */
                 justify-content: center; 
                 align-items: center; 
-                background: rgba(0,0,0,0.1);">
+                background: rgba(0,0,0,0);">
         <div style="position:relative; 
                     background-color:white; 
                     padding:10px; 
@@ -67,7 +67,7 @@
             <img id="screenshotImg" 
                  src="" 
                  alt="screenshot" 
-                 style="width:80vw; height:80vh;
+                 style="width:60vw; height:60vh;
                         pointer-events: none;">
         </div>
     </div>
@@ -310,8 +310,8 @@
         function ShowScreenshot(dataUrl){
             document.getElementById("screenshotDiv").style.display = "flex";
             document.getElementById("screenshotImg").src = dataUrl;
-            document.getElementById("screenshotImg").style.width = "80vw";
-            document.getElementById("screenshotImg").style.height = 80 / window.innerWidth * window.innerHeight + "vw";
+            document.getElementById("screenshotImg").style.width = "60vw";
+            document.getElementById("screenshotImg").style.height = 60 / window.innerWidth * window.innerHeight + "vw";
         }
 
         function HideScreenshot() {
