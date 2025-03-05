@@ -7,45 +7,55 @@
     <link rel="stylesheet" href="TemplateData/style.css">
 
     <style>
-        html{
-            height: -webkit-fill-available;
+        /* 新增加载动画样式 */
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            min-height: -webkit-fill-available;
+        .loading-icon {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: rotate 1s linear infinite;
+            margin-right: 10px;
+        }
+        
+        /* 修改启动页样式 */
+        #custom-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100vw;
-            overflow: hidden;
-        }
-        .ctaDiv {
+            height: 100vh;
+            background: #000;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            background: #fffa;
-            z-index: 99;
+            z-index: 9999;
+            color: white;
+        }
+        .loading-text {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
+    <!-- 新增自定义加载页面 -->
+    <div id="custom-loading">
+        <img src="TemplateData/logo.png" alt="Logo" style="width: 120px; margin-bottom: 30px;">
+        <div class="loading-text">
+            <div class="loading-icon"></div>
+            <span>正在打开照相机授权，请稍后</span>
+        </div>
+    </div>
     <video id="webcam-video" muted autoplay playsinline style="width:1px;position:absolute"></video>
     <canvas id="video-canvas" style="width:100%; height:100%; object-fit:cover; position:absolute"></canvas>
-    <div id="startARDiv" class="ctaDiv">
-        <select id="chooseCamSel" style="display: none;" onchange="SelectCam()"></select>
-        <p style="text-align: center; width:60vw">体验AR，我们需要获取您的设备权限，请放心，我们不会收集任何隐私数据！</p>
-        <button id="startARButton" style="display:none" onclick="StartAR()">确认</button>
-    </div>
-<!--     <div id="screenshotDiv" style="display: none;" class="ctaDiv">
-        <div style="position:relative; background-color:white; padding:10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.25);">
-            <img id="screenshotImg" src="" alt="screenshot" style="width:80vw; height:80vh">
-        </div>
-    </div> -->
     <div id="screenshotDiv" 
          style="display: none; 
                 pointer-events: none; 
@@ -95,7 +105,8 @@
             window.wTracker = new WorldTracker(arCamera);
             try{
                 await wTracker.initialize("./opencv.js");
-                console.log("World tracker initialized!");   
+                console.log("World tracker initialized!");
+                StartAR();   
             }
             catch (error) {
                 console.error("Failed to initialize world tracker. Are you missing opencv.js?", error);
@@ -115,6 +126,9 @@
         var loadingBar = document.querySelector("#unity-loading-bar");
         var progressBarFull = document.querySelector("#unity-progress-bar-full");
         function StartAR() {
+            // 隐藏自定义加载页
+            document.getElementById('custom-loading').style.display = 'none';
+
             canvas.style.width = window.innerWidth + "px";
             canvas.style.height = window.innerHeight + "px";
             
