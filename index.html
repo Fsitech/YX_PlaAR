@@ -51,7 +51,7 @@
         <img src="TemplateData/logo.png" alt="Logo" style="width: 120px; margin-bottom: 30px;">
         <div class="loading-text">
             <div class="loading-icon"></div>
-            <span>正在打开照相机授权，请稍后</span>
+            <span>正在准备AR体验，请轻触屏幕继续</span> <!-- 修改提示文字 -->
         </div>
     </div>
     <video id="webcam-video" muted autoplay playsinline style="width:1px;position:absolute"></video>
@@ -98,6 +98,23 @@
     <script src="wtracker.js" type="text/javascript"></script>
     <script src="Build/YX_PlaAR.loader.js"></script>
     <script>
+
+
+        // 全局标志位
+        let isInitialized = false;
+
+        // 点击屏幕触发初始化
+        document.getElementById('custom-loading').addEventListener('click', async () => {
+            if (isInitialized) return;
+            isInitialized = true;
+            
+            try {
+                await initialize();
+            } catch (error) {
+                ShowError("初始化失败: " + error.message);
+            }
+        });
+
         var initialize = async() =>{
             var unityCanvas = document.querySelector("#unity-canvas");
             var videoCanvas = document.querySelector("#video-canvas");
@@ -129,10 +146,17 @@
             // 隐藏自定义加载页
             document.getElementById('custom-loading').style.display = 'none';
 
-            // canvas.style.width = window.innerWidth + "px";
-            // canvas.style.height = window.innerHeight + "px";
+
             
             // document.getElementById('startARDiv').style.display = 'none';
+            // 先请求摄像头权限
+            await RequestWebcam();
+            
+            // 启动运动传感器（此时已有用户手势）
+            await StartMotionSensors();
+            
+            canvas.style.width = window.innerWidth + "px";
+            canvas.style.height = window.innerHeight + "px";
             createUnityInstance(document.querySelector("#unity-canvas"), {
                     dataUrl: "Build/YX_PlaAR.data",
                     frameworkUrl: "Build/YX_PlaAR.framework.js",
