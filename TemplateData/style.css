@@ -45,3 +45,12 @@ body {
         font-size: 14px;
     }
 }
+
+#custom-loading {
+    cursor: pointer; /* 显示可点击状态 */
+    touch-action: manipulation; /* 优化移动端触摸 */
+}
+
+.loading-text span {
+    user-select: none; /* 禁止文字被选中 */
+}
