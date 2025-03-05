@@ -115,7 +115,7 @@
             }
 
             await LoadWebcams();
-            document.getElementById("startARButton").style.display = "block";
+            //document.getElementById("startARButton").style.display = "block";
         }
 
         initialize();
@@ -316,8 +316,14 @@
         }
         
 
-        function ShowError(error){
-            document.getElementById("errorDiv").style.display = "flex";
+        function ShowError(error) {
+            // 隐藏自定义加载页
+            var customLoading = document.getElementById("custom-loading");
+            customLoading.style.display = "none";
+
+            // 显示错误提示
+            var errorDiv = document.getElementById("errorDiv");
+            errorDiv.style.display = "flex";
             document.getElementById("errorText").innerHTML = error;
         }
 
